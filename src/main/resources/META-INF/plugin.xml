@@ -4,15 +4,21 @@
     <name>comments-plugin</name>
     <vendor>matanper</vendor>
 
+    <depends>com.intellij.java</depends>
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.matanper.commentsplugin.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.matanper.commentsplugin.services.MyProjectService"/>
+        <annotator language=""
+                   implementationClass="com.github.matanper.commentsplugin.annotator.CommentHighlighterAnnotator"
+        />
+        <additionalTextAttributes
+                scheme="Dracula"
+                file="colorSchemes/CommentColorDracula.xml"/>
+        <additionalTextAttributes
+                scheme="Default"
+                file="colorSchemes/CommentColorDefault.xml"/>
     </extensions>
 
-    <applicationListeners>
-        <listener class="com.github.matanper.commentsplugin.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
+
+
 </idea-plugin>
