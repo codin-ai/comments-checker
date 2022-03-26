@@ -11,6 +11,7 @@ import com.intellij.psi.PsiElement
 class CommentHighlighterAnnotator : Annotator {
 
     private val DISPLAY_MESSAGE = "Outdated Comment!"
+    val TEXT_ATTRIBUTE = TextAttributesKey.createTextAttributesKey("COMMENT_OUTDATED")
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         if (element is PsiComment) {
@@ -18,7 +19,6 @@ class CommentHighlighterAnnotator : Annotator {
             // bla bla
             val comment: String = element.text
             if (comment.contains("dog")) {
-                val TEXT_ATTRIBUTE = TextAttributesKey.createTextAttributesKey("COMMENT_OUTDATED")
 
                 holder.newAnnotation(HighlightSeverity.INFORMATION,
                                      DISPLAY_MESSAGE)

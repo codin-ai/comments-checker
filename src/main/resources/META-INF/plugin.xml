@@ -1,7 +1,7 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.matanper.commentsplugin</id>
-    <name>comments-plugin</name>
+    <name>CommentsFixer</name>
     <vendor>matanper</vendor>
 
     <depends>com.intellij.java</depends>
@@ -12,7 +12,7 @@
                    implementationClass="com.github.matanper.commentsplugin.annotator.CommentHighlighterAnnotator"
         />
         <additionalTextAttributes
-                scheme="Dracula"
+                scheme="Darcula"
                 file="colorSchemes/CommentColorDracula.xml"/>
         <additionalTextAttributes
                 scheme="Default"
