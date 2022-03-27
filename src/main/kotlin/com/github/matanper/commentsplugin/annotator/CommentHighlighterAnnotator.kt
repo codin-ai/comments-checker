@@ -4,11 +4,14 @@ import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.editor.colors.TextAttributesKey
+import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.vcs.impl.LineStatusTrackerManager
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
+import org.jetbrains.kotlin.psi.psiUtil.endOffset
+import org.jetbrains.kotlin.psi.psiUtil.startOffset
 
 
 class CommentHighlighterAnnotator : Annotator {
@@ -16,8 +19,10 @@ class CommentHighlighterAnnotator : Annotator {
     private val DISPLAY_MESSAGE = "Outdated Comment!"
     val TEXT_ATTRIBUTE = TextAttributesKey.createTextAttributesKey("COMMENT_OUTDATED")
 
+    /**
+     * Return list of related code elements, and a related code element"""
+     */
     private fun next_related_element(element: PsiElement): Pair<List<PsiElement>, PsiElement>? {
-        """Return list of related code elements, and a related code element"""
         val relatedElements = mutableListOf(element)
         var nextElement = element.nextSibling
         while (isNoneCodeElement(nextElement)) {
@@ -47,7 +52,6 @@ class CommentHighlighterAnnotator : Annotator {
             }
             prevElement = prevElement.prevSibling
         }
-
 
         return Pair(relatedElements, nextElement)
     }
@@ -84,6 +88,10 @@ class CommentHighlighterAnnotator : Annotator {
             val commentsModified = lineStatusTracker.isRangeModified(firstCommentLineNumber, lastCommentLineNumber + 1)
             val codeLineModified = lineStatusTracker.isLineModified(codelineNumber)
 
+            val vcsLineNumber = lineStatusTracker.transferLineToVcs(codelineNumber, true)
+            val vcsLineText = lineStatusTracker.vcsDocument.getText(TextRange.create(lineStatusTracker.vcsDocument.getLineStartOffset(vcsLineNumber), lineStatusTracker.vcsDocument.getLineEndOffset(vcsLineNumber)))
+            //vcsLineText.split(element.text)
+            //lineStatusTracker.vcsDocument.text.slice(setOf(element.startOffset,element.endOffset))
             if (codeLineModified && !commentsModified) {
                 holder.newAnnotation(
                     HighlightSeverity.INFORMATION,
