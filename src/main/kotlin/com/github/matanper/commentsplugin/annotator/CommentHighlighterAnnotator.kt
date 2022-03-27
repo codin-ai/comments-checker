@@ -17,7 +17,7 @@ import java.util.regex.Pattern
 
 class CommentHighlighterAnnotator : Annotator {
 
-    private val DISPLAY_MESSAGE = "Found change in code without change in comment"
+    private val DISPLAY_MESSAGE = "Found a change in code without a change in comment"
     private val TEXT_ATTRIBUTE = TextAttributesKey.createTextAttributesKey("COMMENT_OUTDATED")
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
@@ -53,6 +53,7 @@ class CommentHighlighterAnnotator : Annotator {
         var nextElement = element.nextSibling
         while (isNoneCodeElement(nextElement)) {
             // If double whitespace then there is no related code, return null
+            val x = 1
             if (isDoubleWhitespace(nextElement)) {
                 return null
             }
