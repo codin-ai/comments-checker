@@ -25,13 +25,15 @@ class CommentHighlighterAnnotator : Annotator {
     val TEXT_ATTRIBUTE = TextAttributesKey.createTextAttributesKey("COMMENT_OUTDATED")
 
     private fun nextRelatedElements(element: PsiElement): Pair<List<PsiElement>, PsiElement>? {
-        """Return list of related code elements, and a related code element"""
+        /**
+         * Return list of related code elements, and a related code element"""
+         */
         val relatedElements = mutableListOf(element)
         var nextElement = element.nextSibling
         while (isNoneCodeElement(nextElement)) {
             // If double whitespace then there is no related code, return null
             if (isDoubleWhitespace(nextElement)) {
-                return null 
+                return null
             }
             if (nextElement !is PsiWhiteSpace) {
                 relatedElements.add(nextElement)
@@ -82,19 +84,22 @@ class CommentHighlighterAnnotator : Annotator {
             val highlightElement = if (element.nextSibling == null)
                 handleInlineComment(element, lineStatusTracker)
             else
-                handleRegularComment(element,lineStatusTracker)
+                handleRegularComment(element, lineStatusTracker)
 
-            holder.newAnnotation(
-                HighlightSeverity.INFORMATION,
-                DISPLAY_MESSAGE
-            )
-                .range(element)
-                .textAttributes(TEXT_ATTRIBUTE)
-                .create()
+            if (highlightElement) {
+                holder.newAnnotation(
+                    HighlightSeverity.INFORMATION,
+                    DISPLAY_MESSAGE
+                )
+                    .range(element)
+                    .textAttributes(TEXT_ATTRIBUTE)
+                    .create()
+            }
         }
     }
 
-    private fun handleRegularComment(element: PsiElement, lineStatusTracker: LineStatusTracker<*>
+    private fun handleRegularComment(
+        element: PsiElement, lineStatusTracker: LineStatusTracker<*>
     ): Boolean {
         var (relatedComments, codeElement) = nextRelatedElements(element) ?: return false
 
@@ -129,7 +134,12 @@ class CommentHighlighterAnnotator : Annotator {
 
         // Test if comment was not modified
         val vcsLineNumber = lineStatusTracker.transferLineToVcs(lastCommentLineNumber, true)
-        val vcsLineText = lineStatusTracker.vcsDocument.getText(TextRange.create(lineStatusTracker.vcsDocument.getLineStartOffset(vcsLineNumber), lineStatusTracker.vcsDocument.getLineEndOffset(vcsLineNumber)))
-        return !vcsLineText.endsWith(element.text)
+        val vcsLineText = lineStatusTracker.vcsDocument.getText(
+            TextRange.create(
+                lineStatusTracker.vcsDocument.getLineStartOffset(vcsLineNumber),
+                lineStatusTracker.vcsDocument.getLineEndOffset(vcsLineNumber)
+            )
+        )
+        return vcsLineText.endsWith(element.text)
     }
 }
