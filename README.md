@@ -2,6 +2,9 @@
 
 **Avoid forgetting comments behind**
 
+![coding-logo](src/main/resources/logo.png)
+
+
 ![Build](https://github.com/matanper/comments-plugin/workflows/Build/badge.svg)
 [![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
@@ -23,6 +26,6 @@ To be completed.
 ## Future work ##
 
 - [ ] Better estimation of "all relevant code for a comment"
-- [ ] Establish an explicit between a comment and a piece of code
+- [ ] Establish an explicit connection between a comment and a piece of code
 - [ ] Check that the comment is informative using a neural language model
 - [ ] Check that the comment is related to the matched code
