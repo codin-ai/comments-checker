@@ -1,29 +1,33 @@
 # comment-checker
 
-**Avoid forgetting comments behind**
-
 ![coding-logo](src/main/resources/logo.png)
 
-
 ![Build](https://github.com/matanper/comments-plugin/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
+[![Version](https://img.shields.io/jetbrains/plugin/v/18855.svg)](https://plugins.jetbrains.com/plugin/18855)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/18855.svg)](https://plugins.jetbrains.com/plugin/18855)
+
+<p align="center">
+<b><!-- Plugin description -->
+Avoid forgetting comments behind
+<!-- Plugin description end --></b>
+</p>
+
 ## Motivation ##
-<!-- Plugin description -->
 
-Writing comments is more often than not a code smell for an unreadable code.
-However, there are scenarios where some complicated code (i.e., implementing algorithmic ideas, implementing adapters to legacy components, etc.) should have a well-documented comment right above it.
+Writing comments is more often than not a code smell for an unreadable code. However, there are scenarios where some
+complicated code (i.e., implementing algorithmic ideas, implementing adapters to legacy components, etc.) should have a
+well-documented comment right above it. Unfortunately, comments may find themselves drifting away from the code they are
+describing as developers sometime skip updating the comment after every code change.
 
-Unfortunately, comments may find themselves drifting away from the code they are describing as developers sometime skip updating the comment after every code change.
-
-Therefore, **`comment-checker` plugin will highlight for you the comments you need to update when changing a piece of code!**
-
-<!-- Plugin description end -->
+Therefore, **`comment-checker` plugin will highlight for you the comments you need to update when changing a piece of
+code!**
 
 ## Install ##
+
 Install `comment-checker` from the Intellij marketplace on any JetBrains IDE.
 
 ## Contribute ##
+
 To be completed.
 
 ## Future work ##
