@@ -1,1 +1,1 @@
-rootProject.name = "comments-plugin"
+rootProject.name = "comments-checker"
