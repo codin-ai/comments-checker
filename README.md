@@ -9,6 +9,11 @@
 [![Version](https://img.shields.io/jetbrains/plugin/v/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/PLUGIN_ID.svg)](https://plugins.jetbrains.com/plugin/PLUGIN_ID)
 
+
+![Example](src/main/resources/example.gif)
+
+
+
 <!-- Plugin description -->
 Writing comments is more often than not a code smell for an unreadable code.
 However, there are scenarios where some complicated code (i.e., implementing algorithmic ideas, implementing adapters to legacy components, etc.) should have a well-documented comment right above it.
