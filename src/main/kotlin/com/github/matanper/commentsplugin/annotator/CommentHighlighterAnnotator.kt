@@ -139,8 +139,8 @@ class CommentHighlighterAnnotator : Annotator {
         var startOffset = element.textOffset
         var endOffset = startOffset + element.text.length
 
-        // Pattern to find the first non whitespace/slash/asterisk
-        val realCharPattern: Pattern = Pattern.compile("[^/*\\s]")
+        // Pattern to find real character
+        val realCharPattern: Pattern = Pattern.compile("[a-zA-Z0-9.]")
         // Search for first real char at the start
         val startMatcher: Matcher = realCharPattern.matcher(element.text)
         if (startMatcher.find()) {
