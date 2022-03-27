@@ -4,9 +4,7 @@
     <name>CommentsFixer</name>
     <vendor>matanper</vendor>
 
-    <depends>com.intellij.java</depends>
     <depends>com.intellij.modules.platform</depends>
-    <depends>Git4Idea</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <annotator language=""
@@ -19,7 +17,6 @@
                 scheme="Default"
                 file="colorSchemes/CommentColorDefault.xml"/>
     </extensions>
-
 
 
 </idea-plugin>
