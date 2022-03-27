@@ -9,18 +9,15 @@ comment-checker
 
 ![Example](src/main/resources/example.gif)
 
-
-<p align="center">
-<b><!-- Plugin description -->
-Avoid forgetting comments behind
-<!-- Plugin description end --></b>
-</p>
-
 ---
 
 
 
 ## Motivation ##
+
+<!-- Plugin description -->
+Avoid forgetting comments behind with `comments-checker`.
+<!-- Plugin description end -->
 
 Writing comments is more often than not a code smell for an unreadable code. However, there are scenarios where some
 complicated code (i.e., implementing algorithmic ideas, implementing adapters to legacy components, etc.) should have a
