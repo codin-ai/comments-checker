@@ -8,12 +8,6 @@
     <depends>com.intellij.modules.platform</depends>
     <depends>Git4Idea</depends>
 
-    <projectListeners>
-        <listener
-                class="com.github.matanper.commentsplugin.annotator.CustomChangeListListener"
-                topic="com.intellij.openapi.vcs.changes.ChangeListListener"/>
-    </projectListeners>
-
     <extensions defaultExtensionNs="com.intellij">
         <annotator language=""
                    implementationClass="com.github.matanper.commentsplugin.annotator.CommentHighlighterAnnotator"
