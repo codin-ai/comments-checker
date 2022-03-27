@@ -1,4 +1,4 @@
-package com.github.matanper.commentsplugin.annotator
+package com.github.codinai.comments.annotator
 
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
@@ -53,7 +53,6 @@ class CommentHighlighterAnnotator : Annotator {
         var nextElement = element.nextSibling
         while (isNoneCodeElement(nextElement)) {
             // If double whitespace then there is no related code, return null
-            val x = 1
             if (isDoubleWhitespace(nextElement)) {
                 return null
             }

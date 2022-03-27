@@ -1,14 +1,14 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.matanper.commentsplugin</id>
+    <id>com.github.codinai</id>
     <name>CommentsFixer</name>
-    <vendor>matanper</vendor>
+    <vendor>codin-ai</vendor>
 
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <annotator language=""
-                   implementationClass="com.github.matanper.commentsplugin.annotator.CommentHighlighterAnnotator"
+                   implementationClass="com.github.codinai.comments.annotator.CommentHighlighterAnnotator"
         />
         <additionalTextAttributes
                 scheme="Darcula"
