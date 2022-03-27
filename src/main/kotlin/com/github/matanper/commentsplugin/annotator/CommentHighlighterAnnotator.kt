@@ -11,22 +11,43 @@ import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
-import org.jetbrains.kotlin.psi.psiUtil.endOffset
-import org.jetbrains.kotlin.psi.psiUtil.parents
-import org.jetbrains.kotlin.psi.psiUtil.startOffset
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 
 class CommentHighlighterAnnotator : Annotator {
 
-    private val test = 1 == 1 &&
-            2 == 2 &&
-            4 == 4 // Inline comment
-    private val DISPLAY_MESSAGE = "Outdated Comment!" // Inline comment
-    val TEXT_ATTRIBUTE = TextAttributesKey.createTextAttributesKey("COMMENT_OUTDATED")
+    private val DISPLAY_MESSAGE = "Found change in code without change in comment"
+    private val TEXT_ATTRIBUTE = TextAttributesKey.createTextAttributesKey("COMMENT_OUTDATED")
+
+    override fun annotate(element: PsiElement, holder: AnnotationHolder) {
+        if (element is PsiComment) {
+            val lineStatusTracker = LineStatusTrackerManager.getInstance(element.project)
+                .getLineStatusTracker(element.containingFile.virtualFile)
+                ?: return
+
+            // If next is null this might be an inline comment
+            val highlightElement = if (element.nextSibling == null)
+                handleInlineComment(element, lineStatusTracker)
+            else
+                handleRegularComment(element, lineStatusTracker)
+
+            if (highlightElement) {
+
+                holder.newAnnotation(
+                    HighlightSeverity.INFORMATION,
+                    DISPLAY_MESSAGE
+                )
+                    .range(commentTextRange(element))
+                    .textAttributes(TEXT_ATTRIBUTE)
+                    .create()
+            }
+        }
+    }
 
     private fun nextRelatedElements(element: PsiElement): Pair<List<PsiElement>, PsiElement>? {
         /**
-         * Return list of related code elements, and a related code element"""
+         * Return list of related comment elements, and a related code element
          */
         val relatedElements = mutableListOf(element)
         var nextElement = element.nextSibling
@@ -67,35 +88,6 @@ class CommentHighlighterAnnotator : Annotator {
 
     private fun isDoubleWhitespace(element: PsiElement): Boolean {
         return element is PsiWhiteSpace && element.text.split("\n").size > 3
-    }
-
-    override fun annotate(element: PsiElement, holder: AnnotationHolder) {
-        if (element is PsiComment) {
-            // dog
-            // bla bla
-            // asdadasdasd
-
-            // If next is null this might be an inline comment
-
-            val lineStatusTracker = LineStatusTrackerManager.getInstance(element.project)
-                .getLineStatusTracker(element.containingFile.virtualFile)
-                ?: return
-
-            val highlightElement = if (element.nextSibling == null)
-                handleInlineComment(element, lineStatusTracker)
-            else
-                handleRegularComment(element, lineStatusTracker)
-
-            if (highlightElement) {
-                holder.newAnnotation(
-                    HighlightSeverity.INFORMATION,
-                    DISPLAY_MESSAGE
-                )
-                    .range(element)
-                    .textAttributes(TEXT_ATTRIBUTE)
-                    .create()
-            }
-        }
     }
 
     private fun handleRegularComment(
@@ -141,5 +133,26 @@ class CommentHighlighterAnnotator : Annotator {
             )
         )
         return vcsLineText.endsWith(element.text)
+    }
+
+    private fun commentTextRange(element: PsiElement): TextRange {
+        var startOffset = element.textOffset
+        var endOffset = startOffset + element.text.length
+
+        // Pattern to find the first non whitespace/slash/asterisk
+        val realCharPattern: Pattern = Pattern.compile("[^/*\\s]")
+        // Search for first real char at the start
+        val startMatcher: Matcher = realCharPattern.matcher(element.text)
+        if (startMatcher.find()) {
+            startOffset += startMatcher.end() - 1
+        }
+
+        // Search for first real char at the end
+        val endMatcher: Matcher = realCharPattern.matcher(element.text.reversed())
+        if (endMatcher.find()) {
+            endOffset -= endMatcher.end() - 1
+        }
+
+        return TextRange(startOffset, endOffset)
     }
 }
