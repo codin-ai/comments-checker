@@ -1,8 +1,8 @@
 # comment-checker
 
 ![coding-logo](src/main/resources/logo.png)
-
 ![Build](https://github.com/matanper/comments-plugin/workflows/Build/badge.svg)
+![Example](src/main/resources/example.gif)
 [![Version](https://img.shields.io/jetbrains/plugin/v/18855.svg)](https://plugins.jetbrains.com/plugin/18855)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/18855.svg)](https://plugins.jetbrains.com/plugin/18855)
 
