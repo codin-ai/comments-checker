@@ -1,4 +1,6 @@
-# comment-checker
+<h1 align="center">
+comment-checker
+</h1>
 
 ![coding-logo](src/main/resources/logo.png)
 ![Build](https://github.com/matanper/comments-plugin/workflows/Build/badge.svg)
@@ -13,6 +15,10 @@
 Avoid forgetting comments behind
 <!-- Plugin description end --></b>
 </p>
+
+---
+
+
 
 ## Motivation ##
 
