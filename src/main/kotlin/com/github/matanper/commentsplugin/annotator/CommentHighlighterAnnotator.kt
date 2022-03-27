@@ -13,7 +13,7 @@ import com.intellij.psi.PsiWhiteSpace
 
 class CommentHighlighterAnnotator : Annotator {
 
-    private val DISPLAY_MESSAGE = "Outdated Comment!"
+    private val DISPLAY_MESSAGE = "Outdated Comment!" // Inline comment
     val TEXT_ATTRIBUTE = TextAttributesKey.createTextAttributesKey("COMMENT_OUTDATED")
 
     private fun next_related_element(element: PsiElement): Pair<List<PsiElement>, PsiElement>? {
