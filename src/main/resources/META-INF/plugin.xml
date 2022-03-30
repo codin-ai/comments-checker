@@ -1,8 +1,17 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
-<idea-plugin require-restart="false">
+<idea-plugin require-restart="false" url="https://github.com/codin-ai/comments-checker">
     <id>com.github.codinai</id>
     <name>CommentsFixer</name>
     <vendor>codin-ai</vendor>
+    <description>
+        Highlight comments in the code which might be out-of-sync from the code related to them.
+
+        Comments may find themselves drifting away from the code they are describing as developers sometime skip
+        updating the comment after every code change. The plugin checks for each comment if the code below it (or behind
+        it for inline comments) has changed since the last commit, and highlight the comment for you to notice it. If
+        you change the comment or commit the changes, the highlighting disappears.
+    </description>
+
 
     <depends>com.intellij.modules.platform</depends>
 
