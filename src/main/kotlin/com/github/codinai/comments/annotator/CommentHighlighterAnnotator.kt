@@ -49,6 +49,7 @@ class CommentHighlighterAnnotator : Annotator {
         /**
          * Return list of related comment elements, and a related code element
          */
+
         val relatedElements = mutableListOf(element)
         var nextElement = element.nextSibling
         while (isNoneCodeElement(nextElement)) {
@@ -56,7 +57,7 @@ class CommentHighlighterAnnotator : Annotator {
             if (isDoubleWhitespace(nextElement)) {
                 return null
             }
-            if (nextElement !is PsiWhiteSpace) {
+            if (!isWhiteSpace(nextElement)) {
                 relatedElements.add(nextElement)
             }
             nextElement = nextElement.nextSibling
@@ -72,8 +73,8 @@ class CommentHighlighterAnnotator : Annotator {
             if (isDoubleWhitespace(prevElement)) {
                 break
             }
-            // list should contain all related code elements
-            if (prevElement !is PsiWhiteSpace) {
+            // list should contain all related comment elements
+            if (!isWhiteSpace(prevElement)) {
                 relatedElements.add(0, prevElement)
             }
             prevElement = prevElement.prevSibling
@@ -83,11 +84,15 @@ class CommentHighlighterAnnotator : Annotator {
     }
 
     private fun isNoneCodeElement(element: PsiElement?): Boolean {
-        return element != null && (element is PsiComment || element is PsiWhiteSpace)
+        return element != null && (element is PsiComment || isWhiteSpace(element))
     }
 
     private fun isDoubleWhitespace(element: PsiElement): Boolean {
-        return element is PsiWhiteSpace && element.text.split("\n").size > 3
+        return isWhiteSpace(element) && element.text.count { it == '\n' } > 2
+    }
+
+    private fun isWhiteSpace(element: PsiElement): Boolean {
+        return element.text.count { !it.isWhitespace() } == 0
     }
 
     private fun handleRegularComment(
@@ -103,11 +108,23 @@ class CommentHighlighterAnnotator : Annotator {
         val lastCommentLineNumber = lastCommittedDoc.getLineNumber(relatedComments.last().textOffset)
 
         val codelineNumber = lastCommittedDoc.getLineNumber(codeElement.textOffset)
-
+        var codeLineModified = isLineModified(lineStatusTracker, codelineNumber)
         val commentsModified = lineStatusTracker.isRangeModified(firstCommentLineNumber, lastCommentLineNumber + 1)
-        val codeLineModified = lineStatusTracker.isLineModified(codelineNumber)
 
         return codeLineModified && !commentsModified
+    }
+
+    private fun isLineModified(lineStatusTracker: LineStatusTracker<*>, lineNumber: Int): Boolean {
+        // The regular function LineStatusTracker.isLineModified doesn't work when line is deleted, since it works on
+        // the local range instead of on the VCS range, so create our own implementation.
+        val ranges = lineStatusTracker.getRanges() ?: return false
+        for(range in ranges){
+            if (range.vcsLine1 <= lineNumber && lineNumber < range.vcsLine2)
+                return true
+            if (range.vcsLine1 > lineNumber)
+                return false
+        }
+        return false
     }
 
     private fun handleInlineComment(element: PsiElement, lineStatusTracker: LineStatusTracker<*>): Boolean {
